@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.20)
+project(kirigami-notepad VERSION 1.0 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_AUTOMOC ON)
+
+find_package(Qt6 6.5 REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2 Widgets)
+find_package(KF6CoreAddons REQUIRED)
+find_package(KF6I18n REQUIRED)
+
+add_executable(kirigami-notepad main.cpp)
+
+target_link_libraries(kirigami-notepad
+    Qt6::Core
+    Qt6::Gui
+    Qt6::Qml
+    Qt6::Quick
+    Qt6::QuickControls2
+    Qt6::Widgets
+    KF6::CoreAddons
+    KF6::I18n
+)
+
+# Copy QML file to build directory
+configure_file(${CMAKE_SOURCE_DIR}/main.qml ${CMAKE_BINARY_DIR}/main.qml COPYONLY)

@@ -1,0 +1,23 @@
+# Build directory
+build/
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Qt files
+*.qmlc
+*.jsc
+*.autosave
+
+# IDE files
+.vscode/
+.idea/
+*.user
+*.pro.user
+
+# Backup files
+*~
+*.bak

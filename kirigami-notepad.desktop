@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Kirigami Notepad
+Comment=A minimal text editor for KDE
+Exec=kirigami-notepad
+Icon=text-editor
+Terminal=false
+Type=Application
+Categories=Qt;KDE;Utility;TextEditor;
+Keywords=text;editor;notepad;
