@@ -2,6 +2,8 @@
 
 A minimal text editor for KDE built with Kirigami and Qt 6, inspired by Windows 7 Notepad.
 
+![A simple text editor](assets/hello-world.png)
+
 ## Features
 
 - **Simple Text Editing** - Clean, distraction-free text editing interface
