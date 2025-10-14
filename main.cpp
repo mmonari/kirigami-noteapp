@@ -5,6 +5,7 @@
 #include <QIcon>
 #include <QFile>
 #include <QTextStream>
+#include <QProcess>
 #include <KLocalizedContext>
 #include <KLocalizedString>
 
@@ -17,15 +18,18 @@ public:
     explicit FileIO(QObject *parent = nullptr) : QObject(parent) {}
     
     Q_INVOKABLE QString read(const QString &filePath) {
+        qDebug() << "Attempting to read file:" << filePath;
         QFile file(filePath);
         if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
             qWarning() << "Could not open file for reading:" << filePath;
+            qWarning() << "File exists:" << file.exists();
             return QString();
         }
         
         QTextStream in(&file);
         QString content = in.readAll();
         file.close();
+        qDebug() << "Successfully read" << content.length() << "characters from:" << filePath;
         return content;
     }
     
@@ -40,6 +44,35 @@ public:
         out << content;
         file.close();
         return true;
+    }
+    
+    Q_INVOKABLE bool isTextFile(const QString &filePath) {
+        // Simple text file detection based on extension
+        QString lower = filePath.toLower();
+        return lower.endsWith(".txt") || 
+               lower.endsWith(".md") || 
+               lower.endsWith(".log") ||
+               lower.endsWith(".conf") ||
+               lower.endsWith(".cfg") ||
+               lower.endsWith(".ini") ||
+               lower.endsWith(".xml") ||
+               lower.endsWith(".json") ||
+               lower.endsWith(".qml") ||
+               lower.endsWith(".cpp") ||
+               lower.endsWith(".h") ||
+               lower.endsWith(".py") ||
+               lower.endsWith(".js");
+    }
+    
+    Q_INVOKABLE void openInNewInstance(const QString &filePath) {
+        QStringList args;
+        args << filePath;
+        bool success = QProcess::startDetached(QCoreApplication::applicationFilePath(), args);
+        if (!success) {
+            qWarning() << "Failed to start new instance with file:" << filePath;
+        } else {
+            qDebug() << "Starting new instance with file:" << filePath;
+        }
     }
 };
 
@@ -65,6 +98,16 @@ int main(int argc, char *argv[])
     // Expose FileIO to QML
     FileIO fileIO;
     engine.rootContext()->setContextProperty("fileIO", &fileIO);
+    
+    // Check for file argument from command line
+    QString initialFile;
+    if (argc > 1) {
+        initialFile = QString::fromLocal8Bit(argv[1]);
+        qDebug() << "Received file argument:" << initialFile;
+    } else {
+        qDebug() << "No file argument provided";
+    }
+    engine.rootContext()->setContextProperty("initialFile", initialFile);
     
     // Load main QML file from current directory
     const QUrl url(QUrl::fromLocalFile(QStringLiteral("main.qml")));

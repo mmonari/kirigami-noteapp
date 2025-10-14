@@ -16,6 +16,16 @@ Kirigami.ApplicationWindow {
     
     Component.onCompleted: {
         textArea.forceActiveFocus()
+        
+        // Load file from command line argument if provided
+        if (typeof initialFile !== 'undefined' && initialFile !== null && initialFile !== "") {
+            currentFile = initialFile
+            const content = fileIO.read(initialFile)
+            if (content !== null && content !== undefined) {
+                textArea.text = content
+                textArea.modified = false
+            }
+        }
     }
     
     // File dialogs
@@ -126,29 +136,75 @@ Kirigami.ApplicationWindow {
         padding: 0
         globalToolBarStyle: Kirigami.ApplicationHeaderStyle.None
         
-        // Text editor
-        Controls.ScrollView {
+        // Text editor with drag and drop support
+        DropArea {
+            id: dropArea
             anchors.fill: parent
             
-            Controls.TextArea {
-                id: textArea
-                
-                property bool modified: false
-                
-                focus: true
-                font.family: "Monospace"
-                font.pointSize: 11
-                wrapMode: TextEdit.Wrap
-                selectByMouse: true
-                persistentSelection: true
-                
-                background: Rectangle {
-                    color: Kirigami.Theme.backgroundColor
+            onDropped: (drop) => {
+                if (drop.hasUrls && drop.urls.length > 0) {
+                    // Properly convert URL to local file path
+                    let fileUrl = drop.urls[0]
+                    let filePath = fileUrl.toString().replace(/^file:\/\//, "")
+                    // Decode URL encoding (e.g., %20 -> space)
+                    filePath = decodeURIComponent(filePath)
+                    
+                    // Check if it's a text file
+                    if (!fileIO.isTextFile(filePath)) {
+                        showPassiveNotification(i18n("Only text files are supported"))
+                        return
+                    }
+                    
+                    // If current text is empty/null, load in current instance
+                    if (!textArea.text || textArea.text.trim() === "") {
+                        currentFile = filePath
+                        textArea.text = fileIO.read(filePath)
+                        textArea.modified = false
+                        showPassiveNotification(i18n("File opened: %1", filePath.split('/').pop()))
+                    } else {
+                        // Otherwise, open in new instance
+                        fileIO.openInNewInstance(filePath)
+                        showPassiveNotification(i18n("Opening in new window..."))
+                    }
                 }
+            }
+            
+            Controls.ScrollView {
+                anchors.fill: parent
                 
-                onTextChanged: {
-                    if (text !== "" && !modified) {
-                        modified = true
+                Controls.TextArea {
+                    id: textArea
+                    
+                    property bool modified: false
+                    
+                    focus: true
+                    font.family: "Monospace"
+                    font.pointSize: 11
+                    wrapMode: TextEdit.Wrap
+                    selectByMouse: true
+                    persistentSelection: true
+                    
+                    background: Rectangle {
+                        color: Kirigami.Theme.backgroundColor
+                        border.color: dropArea.containsDrag ? Kirigami.Theme.highlightColor : "transparent"
+                        border.width: dropArea.containsDrag ? 2 : 0
+                        
+                        // Visual feedback for drag over
+                        Rectangle {
+                            anchors.fill: parent
+                            color: Kirigami.Theme.highlightColor
+                            opacity: dropArea.containsDrag ? 0.1 : 0
+                            
+                            Behavior on opacity {
+                                NumberAnimation { duration: 150 }
+                            }
+                        }
+                    }
+                    
+                    onTextChanged: {
+                        if (text !== "" && !modified) {
+                            modified = true
+                        }
                     }
                 }
             }

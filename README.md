@@ -8,10 +8,14 @@ A minimal text editor for KDE built with Kirigami and Qt 6, inspired by Windows 
 
 - **Simple Text Editing** - Clean, distraction-free text editing interface
 - **File Operations** - New, Open, Save, Save As functionality
+- **Drag and Drop** - Drop text files directly into the editor:
+  - Empty editor: opens the file in the current window
+  - Editor with content: opens the file in a new window
 - **Status Bar** - Shows line count, character count, and file status
 - **Keyboard Shortcuts** - Standard shortcuts (Ctrl+N, Ctrl+O, Ctrl+S, etc.)
 - **Auto-save Indicator** - Visual feedback for unsaved changes
 - **Modern KDE Design** - Uses Kirigami components for a native KDE look
+- **Command-Line Support** - Open files directly: `kirigami-notepad file.txt`
 
 ## Requirements
 
@@ -80,6 +84,23 @@ Requires sudo. Installs for all users.
 
 ## Usage
 
+### Opening Files
+
+**From Command Line:**
+```bash
+# Open a specific file
+kirigami-notepad /path/to/file.txt
+
+# Or after local installation
+~/.local/share/kirigami-notepad/kirigami-notepad file.txt
+```
+
+**Drag and Drop:**
+- Drag a text file from your file manager onto the editor window
+- If the editor is empty, the file opens in the current window
+- If the editor has content, a new window opens with the dropped file
+- Supported formats: .txt, .md, .log, .conf, .cfg, .ini, .xml, .json, .qml, .cpp, .h, .py, .js
+
 ### Keyboard Shortcuts
 
 - **Ctrl+N** - New file
@@ -135,6 +156,9 @@ Based on the Kirigami Hello World template. The application uses:
 
 - Text files are saved with UTF-8 encoding
 - File I/O is handled by a C++ backend (FileIO class)
+- Drag and drop supports multiple text file formats with automatic validation
+- Multiple instances can be opened simultaneously via drag and drop or command line
+- Visual feedback (highlight border) when dragging files over the editor
 - Proper error handling and file permissions
 
 ## License
