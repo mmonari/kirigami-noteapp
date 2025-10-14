@@ -14,6 +14,14 @@ Kirigami.ApplicationWindow {
     property string currentFile: ""
     property bool hasFile: currentFile !== ""
     
+    // Handle window close events
+    onClosing: (close) => {
+        if (textArea.modified) {
+            close.accepted = false
+            quitConfirmDialog.open()
+        }
+    }
+    
     Component.onCompleted: {
         textArea.forceActiveFocus()
         
@@ -42,6 +50,60 @@ Kirigami.ApplicationWindow {
         }
     }
     
+    // Confirmation dialog for opening file with unsaved changes
+    Controls.Dialog {
+        id: openFileConfirmDialog
+        title: i18n("Unsaved Changes")
+        modal: true
+        anchors.centerIn: parent
+        
+        standardButtons: Controls.Dialog.Save | Controls.Dialog.Discard | Controls.Dialog.Cancel
+        
+        Controls.Label {
+            text: i18n("The document has been modified.\nDo you want to save your changes before opening another file?")
+        }
+        
+        onAccepted: {
+            // Save button clicked
+            if (hasFile) {
+                fileIO.write(currentFile, textArea.text)
+                textArea.modified = false
+                openDialog.open()
+            } else {
+                saveDialogBeforeOpen.open()
+            }
+        }
+        
+        onDiscarded: {
+            // Discard button clicked
+            textArea.modified = false
+            openDialog.open()
+        }
+        
+        onRejected: {
+            // Cancel button clicked - do nothing
+        }
+    }
+    
+    // Save dialog for open file scenario
+    FileDialog {
+        id: saveDialogBeforeOpen
+        title: i18n("Save As")
+        fileMode: FileDialog.SaveFile
+        nameFilters: [i18n("Text files (*.txt)"), i18n("All files (*)")]
+        defaultSuffix: "txt"
+        onAccepted: {
+            const path = selectedFile.toString().replace("file://", "")
+            currentFile = path
+            fileIO.write(path, textArea.text)
+            textArea.modified = false
+            openDialog.open()
+        }
+        onRejected: {
+            // User cancelled save dialog, don't open
+        }
+    }
+    
     FileDialog {
         id: saveDialog
         title: i18n("Save As")
@@ -54,6 +116,117 @@ Kirigami.ApplicationWindow {
             fileIO.write(path, textArea.text)
             textArea.modified = false
             showPassiveNotification(i18n("File saved"))
+        }
+    }
+    
+    // Confirmation dialog for unsaved changes
+    Controls.Dialog {
+        id: quitConfirmDialog
+        title: i18n("Unsaved Changes")
+        modal: true
+        anchors.centerIn: parent
+        
+        standardButtons: Controls.Dialog.Save | Controls.Dialog.Discard | Controls.Dialog.Cancel
+        
+        Controls.Label {
+            text: i18n("The document has been modified.\nDo you want to save your changes?")
+        }
+        
+        onAccepted: {
+            // Save button clicked
+            if (hasFile) {
+                fileIO.write(currentFile, textArea.text)
+                textArea.modified = false
+                Qt.quit()
+            } else {
+                saveDialogBeforeQuit.open()
+            }
+        }
+        
+        onDiscarded: {
+            // Discard button clicked
+            textArea.modified = false
+            Qt.quit()
+        }
+        
+        onRejected: {
+            // Cancel button clicked - do nothing
+        }
+    }
+    
+    // Save dialog specifically for quit scenario
+    FileDialog {
+        id: saveDialogBeforeQuit
+        title: i18n("Save As")
+        fileMode: FileDialog.SaveFile
+        nameFilters: [i18n("Text files (*.txt)"), i18n("All files (*)")]
+        defaultSuffix: "txt"
+        onAccepted: {
+            const path = selectedFile.toString().replace("file://", "")
+            currentFile = path
+            fileIO.write(path, textArea.text)
+            textArea.modified = false
+            Qt.quit()
+        }
+        onRejected: {
+            // User cancelled save dialog, don't quit
+        }
+    }
+    
+    // Confirmation dialog for new document with unsaved changes
+    Controls.Dialog {
+        id: newFileConfirmDialog
+        title: i18n("Unsaved Changes")
+        modal: true
+        anchors.centerIn: parent
+        
+        standardButtons: Controls.Dialog.Save | Controls.Dialog.Discard | Controls.Dialog.Cancel
+        
+        Controls.Label {
+            text: i18n("The document has been modified.\nDo you want to save your changes before creating a new document?")
+        }
+        
+        onAccepted: {
+            // Save button clicked
+            if (hasFile) {
+                fileIO.write(currentFile, textArea.text)
+                textArea.modified = false
+                currentFile = ""
+                textArea.text = ""
+            } else {
+                saveDialogBeforeNew.open()
+            }
+        }
+        
+        onDiscarded: {
+            // Discard button clicked
+            currentFile = ""
+            textArea.text = ""
+            textArea.modified = false
+        }
+        
+        onRejected: {
+            // Cancel button clicked - do nothing
+        }
+    }
+    
+    // Save dialog for new document scenario
+    FileDialog {
+        id: saveDialogBeforeNew
+        title: i18n("Save As")
+        fileMode: FileDialog.SaveFile
+        nameFilters: [i18n("Text files (*.txt)"), i18n("All files (*)")]
+        defaultSuffix: "txt"
+        onAccepted: {
+            const path = selectedFile.toString().replace("file://", "")
+            currentFile = path
+            fileIO.write(path, textArea.text)
+            textArea.modified = false
+            currentFile = ""
+            textArea.text = ""
+        }
+        onRejected: {
+            // User cancelled save dialog, don't create new
         }
     }
     
@@ -70,11 +243,12 @@ Kirigami.ApplicationWindow {
                 shortcut: StandardKey.New
                 onTriggered: {
                     if (textArea.modified) {
-                        showPassiveNotification(i18n("Unsaved changes!"))
+                        newFileConfirmDialog.open()
+                    } else {
+                        currentFile = ""
+                        textArea.text = ""
+                        textArea.modified = false
                     }
-                    currentFile = ""
-                    textArea.text = ""
-                    textArea.modified = false
                 }
             }
             
@@ -82,7 +256,13 @@ Kirigami.ApplicationWindow {
                 text: i18n("Open...")
                 icon.name: "document-open"
                 shortcut: StandardKey.Open
-                onTriggered: openDialog.open()
+                onTriggered: {
+                    if (textArea.modified) {
+                        openFileConfirmDialog.open()
+                    } else {
+                        openDialog.open()
+                    }
+                }
             }
             
             Controls.MenuSeparator {}
@@ -116,7 +296,13 @@ Kirigami.ApplicationWindow {
                 text: i18n("Quit")
                 icon.name: "application-exit"
                 shortcut: StandardKey.Quit
-                onTriggered: Qt.quit()
+                onTriggered: {
+                    if (textArea.modified) {
+                        quitConfirmDialog.open()
+                    } else {
+                        Qt.quit()
+                    }
+                }
             }
         }
         

@@ -8,6 +8,13 @@ A minimal text editor for KDE built with Kirigami and Qt 6, inspired by Windows 
 
 - **Simple Text Editing** - Clean, distraction-free text editing interface
 - **File Operations** - New, Open, Save, Save As functionality
+- **Unsaved Changes Protection** - Prevents accidental data loss:
+  - Prompts before quitting with unsaved changes
+  - Prompts before opening a new file with unsaved changes
+  - Prompts before creating a new document with unsaved changes
+  - Three options: Save, Discard, or Cancel
+  - Works with window close button and keyboard shortcuts
+  - See [UNSAVED_CHANGES_FEATURE.md](UNSAVED_CHANGES_FEATURE.md) for details
 - **Comprehensive MIME Type Support** - Intelligently detects and opens all standard text-based file formats:
   - Plain text files (text/plain, README, logs, etc.)
   - Programming languages (C/C++, Python, Java, JavaScript, QML, etc.)
@@ -155,20 +162,22 @@ Standard menu bar at the top with:
 
 ```
 kirigami-noteapp/
-├── main.cpp                  - C++ application entry point (with FileIO backend)
-├── main.qml                  - QML UI definition
-├── CMakeLists.txt            - Build configuration
-├── NoteApp.desktop           - Desktop entry with MIME type associations
-├── Makefile                  - Convenience build commands
-├── build.sh                  - Build and run script
-├── run.sh                    - Quick run script
-├── install-local.sh          - Local installation script
-├── uninstall-local.sh        - Uninstall script
-├── test-mime-detection.sh    - MIME type detection testing script
-├── README.md                 - This file
-├── MIME_TYPES.md             - Comprehensive MIME type documentation
-├── QUICKSTART.md             - Quick start guide
-└── INDEX.md                  - Project index
+├── main.cpp                     - C++ application entry point (with FileIO backend)
+├── main.qml                     - QML UI definition
+├── CMakeLists.txt               - Build configuration
+├── NoteApp.desktop              - Desktop entry with MIME type associations
+├── Makefile                     - Convenience build commands
+├── build.sh                     - Build and run script
+├── run.sh                       - Quick run script
+├── install-local.sh             - Local installation script
+├── uninstall-local.sh           - Uninstall script
+├── test-mime-detection.sh       - MIME type detection testing script
+├── README.md                    - This file
+├── MIME_TYPES.md                - Comprehensive MIME type documentation
+├── UNSAVED_CHANGES_FEATURE.md   - Unsaved changes protection documentation
+├── REFACTORING_SUMMARY.md       - MIME type refactoring summary
+├── QUICKSTART.md                - Quick start guide
+└── INDEX.md                     - Project index
 ```
 
 ## Development
