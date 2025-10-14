@@ -5,6 +5,10 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
+# Suppress Vulkan warnings (not needed for this application)
+set(CMAKE_DISABLE_FIND_PACKAGE_Vulkan TRUE)
+set(CMAKE_DISABLE_FIND_PACKAGE_WrapVulkanHeaders TRUE)
+
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2 Widgets)
 find_package(KF6CoreAddons REQUIRED)
 find_package(KF6I18n REQUIRED)

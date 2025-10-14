@@ -14,6 +14,10 @@ Kirigami.ApplicationWindow {
     property string currentFile: ""
     property bool hasFile: currentFile !== ""
     
+    Component.onCompleted: {
+        textArea.forceActiveFocus()
+    }
+    
     // File dialogs
     FileDialog {
         id: openDialog
@@ -131,6 +135,7 @@ Kirigami.ApplicationWindow {
                 
                 property bool modified: false
                 
+                focus: true
                 font.family: "Monospace"
                 font.pointSize: 11
                 wrapMode: TextEdit.Wrap
