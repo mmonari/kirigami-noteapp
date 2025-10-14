@@ -21,3 +21,8 @@ Makefile
 # Backup files
 *~
 *.bak
+
+# Qt6 documentation
+.doc
+.doc/*
+
