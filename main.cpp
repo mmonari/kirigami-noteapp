@@ -6,6 +6,8 @@
 #include <QFile>
 #include <QTextStream>
 #include <QProcess>
+#include <QMimeDatabase>
+#include <QMimeType>
 #include <KLocalizedContext>
 #include <KLocalizedString>
 
@@ -47,21 +49,69 @@ public:
     }
     
     Q_INVOKABLE bool isTextFile(const QString &filePath) {
-        // Simple text file detection based on extension
-        QString lower = filePath.toLower();
-        return lower.endsWith(".txt") || 
-               lower.endsWith(".md") || 
-               lower.endsWith(".log") ||
-               lower.endsWith(".conf") ||
-               lower.endsWith(".cfg") ||
-               lower.endsWith(".ini") ||
-               lower.endsWith(".xml") ||
-               lower.endsWith(".json") ||
-               lower.endsWith(".qml") ||
-               lower.endsWith(".cpp") ||
-               lower.endsWith(".h") ||
-               lower.endsWith(".py") ||
-               lower.endsWith(".js");
+        // Use QMimeDatabase for proper MIME type detection
+        QMimeDatabase mimeDb;
+        QMimeType mimeType = mimeDb.mimeTypeForFile(filePath);
+        QString mimeTypeName = mimeType.name();
+        
+        qDebug() << "MIME type for" << filePath << ":" << mimeTypeName;
+        
+        // Check if it's a text-based MIME type
+        // This covers text/plain and all its derivatives
+        if (mimeTypeName.startsWith("text/")) {
+            return true;
+        }
+        
+        // Additional application MIME types that are text-based
+        QStringList textBasedMimeTypes = {
+            "application/json",
+            "application/x-yaml",
+            "application/yaml",
+            "application/xml",
+            "application/x-docbook+xml",
+            "application/xhtml+xml",
+            "application/javascript",
+            "application/x-shellscript",
+            "application/x-perl",
+            "application/x-python",
+            "application/x-ruby",
+            "application/x-php",
+            "application/x-desktop",
+            "application/x-config",
+            "application/toml",
+            "application/x-wine-extension-ini"
+        };
+        
+        if (textBasedMimeTypes.contains(mimeTypeName)) {
+            return true;
+        }
+        
+        // Check if the MIME type inherits from text/plain
+        if (mimeType.inherits("text/plain")) {
+            return true;
+        }
+        
+        // Fallback: check if MIME type name contains "text" or if it's empty (unknown)
+        // This helps with edge cases
+        if (mimeTypeName.contains("text", Qt::CaseInsensitive)) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    Q_INVOKABLE QString getMimeType(const QString &filePath) {
+        // Utility function to get MIME type for display/debugging
+        QMimeDatabase mimeDb;
+        QMimeType mimeType = mimeDb.mimeTypeForFile(filePath);
+        return mimeType.name();
+    }
+    
+    Q_INVOKABLE QString getMimeTypeComment(const QString &filePath) {
+        // Get human-readable MIME type description
+        QMimeDatabase mimeDb;
+        QMimeType mimeType = mimeDb.mimeTypeForFile(filePath);
+        return mimeType.comment();
     }
     
     Q_INVOKABLE void openInNewInstance(const QString &filePath) {

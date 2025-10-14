@@ -28,3 +28,21 @@ target_link_libraries(kirigami-noteapp
 
 # Copy QML file to build directory
 configure_file(${CMAKE_SOURCE_DIR}/main.qml ${CMAKE_BINARY_DIR}/main.qml COPYONLY)
+
+# Copy desktop file to build directory
+configure_file(${CMAKE_SOURCE_DIR}/NoteApp.desktop ${CMAKE_BINARY_DIR}/NoteApp.desktop COPYONLY)
+
+# Install targets (for system-wide installation)
+include(GNUInstallDirs)
+
+install(TARGETS kirigami-noteapp
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+install(FILES ${CMAKE_BINARY_DIR}/main.qml
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/kirigami-noteapp
+)
+
+install(FILES ${CMAKE_BINARY_DIR}/NoteApp.desktop
+    DESTINATION ${CMAKE_INSTALL_DATADIR}/applications
+)

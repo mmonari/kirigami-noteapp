@@ -8,9 +8,25 @@ A minimal text editor for KDE built with Kirigami and Qt 6, inspired by Windows 
 
 - **Simple Text Editing** - Clean, distraction-free text editing interface
 - **File Operations** - New, Open, Save, Save As functionality
-- **Drag and Drop** - Drop text files directly into the editor:
+- **Comprehensive MIME Type Support** - Intelligently detects and opens all standard text-based file formats:
+  - Plain text files (text/plain, README, logs, etc.)
+  - Programming languages (C/C++, Python, Java, JavaScript, QML, etc.)
+  - Data formats (JSON, YAML, XML, TOML)
+  - Build systems (CMake, Makefiles)
+  - Documentation (Markdown, DocBook XML)
+  - Configuration files (.desktop, .ini, .conf)
+  - Web technologies (HTML, CSS)
+  - Shell scripts (Bash, Zsh, etc.)
+  - See [MIME_TYPES.md](MIME_TYPES.md) for the complete list
+- **Smart File Type Detection** - Uses Qt's QMimeDatabase for accurate MIME type detection
+- **Drag and Drop** - Drop any supported text file directly into the editor:
   - Empty editor: opens the file in the current window
   - Editor with content: opens the file in a new window
+  - Automatic validation of text-based files
+- **Desktop Integration** - Full integration with KDE/freedesktop.org:
+  - Appears in "Open With" dialogs for supported file types
+  - Can be set as default application for text files
+  - Handles files from file manager and command line
 - **Status Bar** - Shows line count, character count, and file status
 - **Keyboard Shortcuts** - Standard shortcuts (Ctrl+N, Ctrl+O, Ctrl+S, etc.)
 - **Auto-save Indicator** - Visual feedback for unsaved changes
@@ -96,10 +112,17 @@ kirigami-noteapp /path/to/file.txt
 ```
 
 **Drag and Drop:**
-- Drag a text file from your file manager onto the editor window
+- Drag any text-based file from your file manager onto the editor window
 - If the editor is empty, the file opens in the current window
 - If the editor has content, a new window opens with the dropped file
-- Supported formats: .txt, .md, .log, .conf, .cfg, .ini, .xml, .json, .qml, .cpp, .h, .py, .js
+- **Smart Detection:** Uses MIME type detection to identify text files
+- Supports 50+ text file formats including:
+  - Source code (.cpp, .py, .js, .java, etc.)
+  - Data files (.json, .yaml, .xml, .toml)
+  - Build files (CMakeLists.txt, Makefile)
+  - Documentation (.md, README, .docbook)
+  - Configuration files (.desktop, .conf, .ini)
+  - And many more - see [MIME_TYPES.md](MIME_TYPES.md)
 
 ### Keyboard Shortcuts
 
@@ -132,15 +155,20 @@ Standard menu bar at the top with:
 
 ```
 kirigami-noteapp/
-├── main.cpp              - C++ application entry point (with FileIO backend)
-├── main.qml              - QML UI definition
-├── CMakeLists.txt        - Build configuration
-├── Makefile              - Convenience build commands
-├── build.sh              - Build and run script
-├── run.sh                - Quick run script
-├── install-local.sh      - Local installation script (installs to ~/.local/share/kirigami-noteapp/)
-├── uninstall-local.sh    - Uninstall script
-└── README.md             - This file
+├── main.cpp                  - C++ application entry point (with FileIO backend)
+├── main.qml                  - QML UI definition
+├── CMakeLists.txt            - Build configuration
+├── NoteApp.desktop           - Desktop entry with MIME type associations
+├── Makefile                  - Convenience build commands
+├── build.sh                  - Build and run script
+├── run.sh                    - Quick run script
+├── install-local.sh          - Local installation script
+├── uninstall-local.sh        - Uninstall script
+├── test-mime-detection.sh    - MIME type detection testing script
+├── README.md                 - This file
+├── MIME_TYPES.md             - Comprehensive MIME type documentation
+├── QUICKSTART.md             - Quick start guide
+└── INDEX.md                  - Project index
 ```
 
 ## Development
@@ -152,14 +180,32 @@ Based on the Kirigami Hello World template. The application uses:
 - **Qt Quick Controls** for standard UI elements
 - **Qt Quick Dialogs** for file dialogs
 
+## MIME Type Support
+
+The application uses Qt's `QMimeDatabase` for intelligent file type detection. This ensures compatibility with all standard text-based MIME types in KDE and other freedesktop.org-compliant environments.
+
+**Supported MIME type categories:**
+- `text/*` - All text MIME types (plain text, markdown, source code, etc.)
+- `application/json`, `application/x-yaml`, `application/xml` - Data formats
+- `application/x-docbook+xml` - DocBook documentation
+- `application/x-shellscript` - Shell scripts
+- And many more - see [MIME_TYPES.md](MIME_TYPES.md) for details
+
+**Testing MIME detection:**
+```bash
+./test-mime-detection.sh
+```
+
 ## Notes
 
 - Text files are saved with UTF-8 encoding
 - File I/O is handled by a C++ backend (FileIO class)
-- Drag and drop supports multiple text file formats with automatic validation
+- MIME type detection uses Qt's QMimeDatabase for accuracy
+- Drag and drop supports 50+ text file formats with automatic validation
 - Multiple instances can be opened simultaneously via drag and drop or command line
 - Visual feedback (highlight border) when dragging files over the editor
 - Proper error handling and file permissions
+- Desktop integration for "Open With" functionality
 
 ## License
 
