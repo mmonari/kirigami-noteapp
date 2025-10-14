@@ -4,6 +4,24 @@ A minimal text editor for KDE built with Kirigami and Qt 6, inspired by Windows 
 
 ![A simple text editor](assets/hello-world.png)
 
+## Quick Links
+
+> 📘 **New to the docs?** See the [Documentation Guide](assets/docs/DOCUMENTATION_GUIDE.md) for help navigating all available documentation.
+
+📖 **Getting Started:**
+- [Quick Start Guide](assets/docs/QUICKSTART.md) - Get up and running in 5 minutes
+- [Building & Installation](#building) - Build from source or install locally
+
+📚 **Feature Documentation:**
+- [MIME Type Support](assets/docs/MIME_TYPES.md) - Comprehensive list of supported file formats
+- [Unsaved Changes Protection](assets/docs/UNSAVED_CHANGES_FEATURE.md) - How the auto-save protection works
+
+🔧 **Developer Resources:**
+- [Refactoring Summary](assets/docs/REFACTORING_SUMMARY.md) - MIME type implementation details
+- [Project Index](assets/docs/INDEX.md) - Complete project overview and history
+
+---
+
 ## Features
 
 - **Simple Text Editing** - Clean, distraction-free text editing interface
@@ -14,7 +32,7 @@ A minimal text editor for KDE built with Kirigami and Qt 6, inspired by Windows 
   - Prompts before creating a new document with unsaved changes
   - Three options: Save, Discard, or Cancel
   - Works with window close button and keyboard shortcuts
-  - See [UNSAVED_CHANGES_FEATURE.md](UNSAVED_CHANGES_FEATURE.md) for details
+  - See [Unsaved Changes Protection](assets/docs/UNSAVED_CHANGES_FEATURE.md) for details
 - **Comprehensive MIME Type Support** - Intelligently detects and opens all standard text-based file formats:
   - Plain text files (text/plain, README, logs, etc.)
   - Programming languages (C/C++, Python, Java, JavaScript, QML, etc.)
@@ -24,7 +42,7 @@ A minimal text editor for KDE built with Kirigami and Qt 6, inspired by Windows 
   - Configuration files (.desktop, .ini, .conf)
   - Web technologies (HTML, CSS)
   - Shell scripts (Bash, Zsh, etc.)
-  - See [MIME_TYPES.md](MIME_TYPES.md) for the complete list
+  - See [MIME Type Support](assets/docs/MIME_TYPES.md) for the complete list
 - **Smart File Type Detection** - Uses Qt's QMimeDatabase for accurate MIME type detection
 - **Drag and Drop** - Drop any supported text file directly into the editor:
   - Empty editor: opens the file in the current window
@@ -50,7 +68,9 @@ A minimal text editor for KDE built with Kirigami and Qt 6, inspired by Windows 
 
 ## Building
 
-### Quick Start
+> 📘 **New to the project?** Start with the [Quick Start Guide](assets/docs/QUICKSTART.md) for step-by-step instructions.
+
+### Quick Build
 
 ```bash
 # Build and run
@@ -129,7 +149,7 @@ kirigami-noteapp /path/to/file.txt
   - Build files (CMakeLists.txt, Makefile)
   - Documentation (.md, README, .docbook)
   - Configuration files (.desktop, .conf, .ini)
-  - And many more - see [MIME_TYPES.md](MIME_TYPES.md)
+  - And many more - see [MIME Type Support](assets/docs/MIME_TYPES.md)
 
 ### Keyboard Shortcuts
 
@@ -162,22 +182,29 @@ Standard menu bar at the top with:
 
 ```
 kirigami-noteapp/
-├── main.cpp                     - C++ application entry point (with FileIO backend)
-├── main.qml                     - QML UI definition
-├── CMakeLists.txt               - Build configuration
-├── NoteApp.desktop              - Desktop entry with MIME type associations
-├── Makefile                     - Convenience build commands
-├── build.sh                     - Build and run script
-├── run.sh                       - Quick run script
-├── install-local.sh             - Local installation script
-├── uninstall-local.sh           - Uninstall script
-├── test-mime-detection.sh       - MIME type detection testing script
-├── README.md                    - This file
-├── MIME_TYPES.md                - Comprehensive MIME type documentation
-├── UNSAVED_CHANGES_FEATURE.md   - Unsaved changes protection documentation
-├── REFACTORING_SUMMARY.md       - MIME type refactoring summary
-├── QUICKSTART.md                - Quick start guide
-└── INDEX.md                     - Project index
+├── assets/
+│   ├── docs/                         - 📚 Documentation
+│   │   ├── DOCUMENTATION_GUIDE.md    - Navigation guide for all docs
+│   │   ├── INDEX.md                  - Project index and overview
+│   │   ├── QUICKSTART.md             - Quick start guide
+│   │   ├── MIME_TYPES.md             - Supported file formats reference
+│   │   ├── UNSAVED_CHANGES_FEATURE.md - Unsaved changes feature details
+│   │   └── REFACTORING_SUMMARY.md    - Technical refactoring notes
+│   └── hello-world.png               - Screenshot
+├── build/                            - Build output (generated)
+├── .doc/
+│   └── qt6.md                        - Qt 6 documentation reference
+├── main.cpp                          - C++ application entry point
+├── main.qml                          - QML UI definition
+├── CMakeLists.txt                    - Build configuration
+├── NoteApp.desktop                   - Desktop entry with MIME type associations
+├── Makefile                          - Convenience build commands
+├── build.sh                          - Build and run script
+├── run.sh                            - Quick run script
+├── install-local.sh                  - Local installation script
+├── uninstall-local.sh                - Uninstall script
+├── test-mime-detection.sh            - MIME type detection testing script
+└── README.md                         - This file (you are here)
 ```
 
 ## Development
@@ -198,12 +225,25 @@ The application uses Qt's `QMimeDatabase` for intelligent file type detection. T
 - `application/json`, `application/x-yaml`, `application/xml` - Data formats
 - `application/x-docbook+xml` - DocBook documentation
 - `application/x-shellscript` - Shell scripts
-- And many more - see [MIME_TYPES.md](MIME_TYPES.md) for details
+- And many more - see [MIME Type Support](assets/docs/MIME_TYPES.md) for details
 
 **Testing MIME detection:**
 ```bash
 ./test-mime-detection.sh
 ```
+
+## Documentation
+
+> 📚 All documentation is organized in the [`assets/docs/`](assets/docs/) directory. See the [Documentation Guide](assets/docs/DOCUMENTATION_GUIDE.md) for navigation help.
+
+**Available Documentation:**
+
+- **[Documentation Guide](assets/docs/DOCUMENTATION_GUIDE.md)** - How to navigate all docs (start here!)
+- **[Quick Start Guide](assets/docs/QUICKSTART.md)** - Get started in 5 minutes
+- **[MIME Type Support](assets/docs/MIME_TYPES.md)** - Complete list of 50+ supported text file formats
+- **[Unsaved Changes Protection](assets/docs/UNSAVED_CHANGES_FEATURE.md)** - How the save prompt feature works
+- **[Refactoring Summary](assets/docs/REFACTORING_SUMMARY.md)** - Technical details of MIME type implementation
+- **[Project Index](assets/docs/INDEX.md)** - Full project overview and development history
 
 ## Notes
 
