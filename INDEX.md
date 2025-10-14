@@ -1,4 +1,4 @@
-# 📝 Kirigami Notepad - Complete Index
+# 📝 Kirigami NoteApp - Complete Index
 
 ## 🚀 Start Here
 
@@ -179,7 +179,7 @@ The main window uses:
 
 ## 🎉 You're All Set!
 
-The Kirigami Notepad is ready to use. Features include:
+The Kirigami NoteApp is ready to use. Features include:
 
 ✅ Text editing with word wrap  
 ✅ File operations (New, Open, Save, Save As)  

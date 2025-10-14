@@ -1,4 +1,4 @@
-# Kirigami Notepad - Quick Start Guide
+# Kirigami NoteApp - Quick Start Guide
 
 ## 🚀 Running the App (30 seconds)
 

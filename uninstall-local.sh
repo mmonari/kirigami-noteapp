@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Kirigami Notepad - Uninstall Script
+# Kirigami NoteApp - Uninstall Script
 # Removes local installation
 
 set -e
 
-echo "🗑️  Uninstalling Kirigami Notepad..."
+echo "🗑️  Uninstalling Kirigami NoteApp..."
 
 INSTALL_DIR="$HOME/.local/share/kirigami-notepad"
 DESKTOP_FILE="$HOME/.local/share/applications/NoteApp.desktop"

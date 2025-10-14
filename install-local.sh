@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# Kirigami Notepad - Local Installation Script
+# Kirigami NoteApp - Local Installation Script
 # Installs to ~/.local/share/kirigami-notepad/
 
 set -e
 
-echo "📦 Installing Kirigami Notepad locally..."
+echo "📦 Installing Kirigami NoteApp locally..."
 
 # Build first
 echo "🔨 Building..."

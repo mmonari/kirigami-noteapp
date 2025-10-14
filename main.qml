@@ -6,7 +6,7 @@ import org.kde.kirigami as Kirigami
 Kirigami.ApplicationWindow {
     id: root
     
-    title: (currentFile ? currentFile.split('/').pop() : i18n("Untitled")) + (textArea.modified ? " *" : "") + " - " + i18n("Kirigami Notepad")
+    title: (currentFile ? currentFile.split('/').pop() : i18n("Untitled")) + (textArea.modified ? " *" : "") + " - " + i18n("Kirigami NoteApp")
     
     width: 800
     height: 600
@@ -112,7 +112,7 @@ Kirigami.ApplicationWindow {
             Controls.Action {
                 text: i18n("About")
                 icon.name: "help-about"
-                onTriggered: showPassiveNotification(i18n("Kirigami Notepad v1.0 - A minimal text editor"))
+                onTriggered: showPassiveNotification(i18n("Kirigami NoteApp v1.0 - A minimal text editor"))
             }
         }
     }

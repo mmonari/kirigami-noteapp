@@ -1,4 +1,4 @@
-# Kirigami Notepad
+# Kirigami NoteApp
 
 A minimal text editor for KDE built with Kirigami and Qt 6, inspired by Windows 7 Notepad.
 

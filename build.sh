@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Kirigami Notepad - Build Script
+# Kirigami NoteApp - Build Script
 # This script builds and runs the application
 
 set -e
@@ -8,7 +8,7 @@ set -e
 PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BUILD_DIR="$PROJECT_DIR/build"
 
-echo "🔨 Building Kirigami Notepad..."
+echo "🔨 Building Kirigami NoteApp..."
 
 # Create build directory if it doesn't exist
 mkdir -p "$BUILD_DIR"

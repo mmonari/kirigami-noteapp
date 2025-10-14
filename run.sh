@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Kirigami Notepad - Quick Run Script
+# Kirigami NoteApp - Quick Run Script
 # Runs without rebuilding
 
 set -e
@@ -13,5 +13,5 @@ if [ ! -f "$BUILD_DIR/kirigami-notepad" ]; then
     exit 1
 fi
 
-echo "🚀 Running Kirigami Notepad..."
+echo "🚀 Running Kirigami NoteApp..."
 cd "$BUILD_DIR" && ./kirigami-notepad

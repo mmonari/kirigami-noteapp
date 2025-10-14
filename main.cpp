@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
     
     // Set application metadata
-    QApplication::setApplicationName(QStringLiteral("Kirigami Notepad"));
+    QApplication::setApplicationName(QStringLiteral("Kirigami NoteApp"));
     QApplication::setOrganizationName(QStringLiteral("KDE"));
     QApplication::setApplicationVersion(QStringLiteral("1.0"));
     QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("text-editor")));
