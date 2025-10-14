@@ -7,7 +7,7 @@ set -e
 
 echo "🗑️  Uninstalling Kirigami NoteApp..."
 
-INSTALL_DIR="$HOME/.local/share/kirigami-notepad"
+INSTALL_DIR="$HOME/.local/share/kirigami-noteapp"
 DESKTOP_FILE="$HOME/.local/share/applications/NoteApp.desktop"
 
 # Remove installation directory

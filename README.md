@@ -15,7 +15,7 @@ A minimal text editor for KDE built with Kirigami and Qt 6, inspired by Windows 
 - **Keyboard Shortcuts** - Standard shortcuts (Ctrl+N, Ctrl+O, Ctrl+S, etc.)
 - **Auto-save Indicator** - Visual feedback for unsaved changes
 - **Modern KDE Design** - Uses Kirigami components for a native KDE look
-- **Command-Line Support** - Open files directly: `kirigami-notepad file.txt`
+- **Command-Line Support** - Open files directly: `kirigami-noteapp file.txt`
 
 ## Requirements
 
@@ -49,7 +49,7 @@ cmake ..
 make -j$(nproc)
 
 # Run
-./kirigami-notepad
+./kirigami-noteapp
 ```
 
 ## Installation
@@ -64,7 +64,7 @@ Install for the current user only (no sudo required):
 
 This will:
 - Build the application
-- Install to `~/.local/share/kirigami-notepad/`
+- Install to `~/.local/share/kirigami-noteapp/`
 - Create a desktop entry as "NoteApp"
 - Make it available in your application launcher
 
@@ -89,10 +89,10 @@ Requires sudo. Installs for all users.
 **From Command Line:**
 ```bash
 # Open a specific file
-kirigami-notepad /path/to/file.txt
+kirigami-noteapp /path/to/file.txt
 
 # Or after local installation
-~/.local/share/kirigami-notepad/kirigami-notepad file.txt
+~/.local/share/kirigami-noteapp/kirigami-noteapp file.txt
 ```
 
 **Drag and Drop:**
@@ -138,7 +138,7 @@ kirigami-noteapp/
 ├── Makefile              - Convenience build commands
 ├── build.sh              - Build and run script
 ├── run.sh                - Quick run script
-├── install-local.sh      - Local installation script
+├── install-local.sh      - Local installation script (installs to ~/.local/share/kirigami-noteapp/)
 ├── uninstall-local.sh    - Uninstall script
 └── README.md             - This file
 ```

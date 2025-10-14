@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
     QApplication::setWindowIcon(QIcon::fromTheme(QStringLiteral("text-editor")));
     
     // Set translation domain
-    KLocalizedString::setApplicationDomain("kirigami-notepad");
+    KLocalizedString::setApplicationDomain("kirigami-noteapp");
     
     // Create QML engine
     QQmlApplicationEngine engine;

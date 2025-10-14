@@ -25,4 +25,4 @@ make -j$(nproc)
 echo "✅ Build successful!"
 echo ""
 echo "🚀 Running application..."
-./kirigami-notepad
+./kirigami-noteapp

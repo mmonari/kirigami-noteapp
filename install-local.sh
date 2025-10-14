@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Kirigami NoteApp - Local Installation Script
-# Installs to ~/.local/share/kirigami-notepad/
+# Installs to ~/.local/share/kirigami-noteapp/
 
 set -e
 
@@ -12,23 +12,23 @@ echo "🔨 Building..."
 make build
 
 # Create installation directory
-INSTALL_DIR="$HOME/.local/share/kirigami-notepad"
+INSTALL_DIR="$HOME/.local/share/kirigami-noteapp"
 mkdir -p "$INSTALL_DIR"
 mkdir -p "$HOME/.local/share/applications"
 
 # Copy files
 echo "📋 Copying files to $INSTALL_DIR..."
-cp build/kirigami-notepad "$INSTALL_DIR/"
+cp build/kirigami-noteapp "$INSTALL_DIR/"
 cp build/main.qml "$INSTALL_DIR/"
-chmod +x "$INSTALL_DIR/kirigami-notepad"
+chmod +x "$INSTALL_DIR/kirigami-noteapp"
 
 # Create desktop entry
 echo "🖥️  Creating desktop entry..."
 cat > "$HOME/.local/share/applications/NoteApp.desktop" << EOF
 [Desktop Entry]
-Exec=$HOME/.local/share/kirigami-notepad/kirigami-notepad
+Exec=$HOME/.local/share/kirigami-noteapp/kirigami-noteapp
 Name=NoteApp
-Path=$HOME/.local/share/kirigami-notepad/
+Path=$HOME/.local/share/kirigami-noteapp/
 Icon=text-editor
 Terminal=false
 Type=Application
@@ -47,5 +47,5 @@ echo "✅ Installation complete!"
 echo ""
 echo "📍 Installed to: $INSTALL_DIR"
 echo "🚀 Launch from application menu: Search for 'NoteApp'"
-echo "💻 Or run directly: $INSTALL_DIR/kirigami-notepad"
+echo "💻 Or run directly: $INSTALL_DIR/kirigami-noteapp"
 echo ""
