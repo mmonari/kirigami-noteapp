@@ -8,9 +8,9 @@
 
 ## 📖 Documentation
 
-- **QUICKSTART.md** - Get up and running in 30 seconds
-- **README.md** - Features, requirements, and detailed usage guide
-- **INDEX.md** - This file (project navigation)
+- **README.md** - Features, requirements, and detailed usage guide (in project root)
+- **assets/docs/QUICKSTART.md** - Get up and running in 30 seconds
+- **assets/docs/INDEX.md** - This file (project navigation)
 
 ## 🔧 Source Files
 
@@ -32,22 +32,32 @@
 
 ```
 kirigami-noteapp/
-├── 🚀 QUICKSTART.md          ← Start here!
-├── 📖 README.md              ← User guide
-├── 📚 INDEX.md               ← This file
+├── 📖 README.md              ← User guide (only .md at root)
 │
-├── 💻 main.cpp               ← C++ source (37 lines)
-├── 🎨 main.qml               ← QML UI (220 lines)
+├── 💻 main.cpp               ← C++ source
+├── 🎨 main.qml               ← QML UI
 ├── ⚙️  CMakeLists.txt         ← Build config
 ├── 🔧 Makefile               ← Build commands
+├── 🖥️  NoteApp.desktop        ← Desktop entry
+├── 🚫 .gitignore             ← Git ignore
 │
 ├── 🔨 build.sh               ← Build & run
 ├── ▶️  run.sh                 ← Quick run
-├── 🖥️  kirigami-notepad.desktop ← Desktop entry
-├── 🚫 .gitignore             ← Git ignore
+├── 📦 install-local.sh       ← Local installation
+├── 🗑️  uninstall-local.sh     ← Uninstall script
+├── 🧪 test-mime-detection.sh ← MIME testing
 │
-└── 📂 build/
-    └── kirigami-notepad      ← Compiled binary (29 KB)
+├── 📂 assets/
+│   ├── docs/                 ← 📚 All documentation
+│   │   ├── QUICKSTART.md     ← Start here!
+│   │   ├── INDEX.md          ← This file
+│   │   ├── DOCUMENTATION_GUIDE.md
+│   │   ├── MIME_TYPES.md
+│   │   ├── UNSAVED_CHANGES_FEATURE.md
+│   │   └── REFACTORING_SUMMARY.md
+│   └── hello-world.png       ← Screenshot
+│
+└── 📂 build/                 ← Compiled binaries
 ```
 
 ## ⚡ Quick Commands
@@ -132,7 +142,7 @@ Want to extend the notepad? Here are some ideas:
 ### Advanced
 - Implement proper C++ file I/O backend
 - Add auto-save functionality
-- Create tabbed interface for multiple files
+- Create tabbed interface for multiple files (maybe not) 
 - Add settings dialog with preferences
 - Implement undo/redo history
 

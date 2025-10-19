@@ -165,7 +165,6 @@ To support additional MIME types:
 
 ## References
 
-- Qt QMimeDatabase documentation: `.doc/qt6.md`
 - Desktop Entry Specification: https://specifications.freedesktop.org/desktop-entry-spec/
 - Shared MIME Info Specification: https://specifications.freedesktop.org/shared-mime-info-spec/
 

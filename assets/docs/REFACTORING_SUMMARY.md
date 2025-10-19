@@ -210,7 +210,6 @@ make build
 
 ## References
 
-- Qt 6.10 Documentation: `.doc/qt6.md`
 - Desktop Entry Specification: https://specifications.freedesktop.org/desktop-entry-spec/
 - Shared MIME Info Specification: https://specifications.freedesktop.org/shared-mime-info-spec/
 - QMimeDatabase Class Reference: Qt documentation
@@ -238,7 +237,7 @@ make build
 - [x] Documentation created and updated
 - [x] Test script created
 - [x] Build system updated for desktop file installation
-- [x] Follows Qt 6 best practices per `.doc/qt6.md`
+- [x] Follows Qt 6 best practices
 
 ## Next Steps (Optional Enhancements)
 

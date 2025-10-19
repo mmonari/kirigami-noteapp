@@ -84,7 +84,6 @@ All project documentation is organized in the `assets/docs/` directory for easy 
 1. [INDEX.md](INDEX.md) - Understand the project
 2. [REFACTORING_SUMMARY.md](REFACTORING_SUMMARY.md) - Learn the codebase
 3. [README.md](../../README.md) - Build and run
-4. Qt 6 Documentation in `/.doc/qt6.md` - Framework reference
 
 ## 📝 Documentation Files
 
@@ -98,7 +97,6 @@ All project documentation is organized in the `assets/docs/` directory for easy 
 
 ## 🔗 External Resources
 
-- **Qt 6 Documentation**: `/.doc/qt6.md` - Qt framework reference
 - **Main README**: `/README.md` - Project home page
 - **Desktop File**: `/NoteApp.desktop` - MIME type associations
 

@@ -192,8 +192,6 @@ kirigami-noteapp/
 │   │   └── REFACTORING_SUMMARY.md    - Technical refactoring notes
 │   └── hello-world.png               - Screenshot
 ├── build/                            - Build output (generated)
-├── .doc/
-│   └── qt6.md                        - Qt 6 documentation reference
 ├── main.cpp                          - C++ application entry point
 ├── main.qml                          - QML UI definition
 ├── CMakeLists.txt                    - Build configuration
