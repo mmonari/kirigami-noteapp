@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls as Controls
 import QtQuick.Dialogs
 import org.kde.kirigami as Kirigami
+import org.kde.syntaxhighlighting 1.0
 
 Kirigami.ApplicationWindow {
     id: root
@@ -13,6 +14,7 @@ Kirigami.ApplicationWindow {
     
     property string currentFile: ""
     property bool hasFile: currentFile !== ""
+    property string currentSyntax: "None"
     
     // Handle window close events
     onClosing: (close) => {
@@ -32,6 +34,8 @@ Kirigami.ApplicationWindow {
             if (content !== null && content !== undefined) {
                 textArea.text = content
                 textArea.modified = false
+                // Auto-detect syntax
+                currentSyntax = fileIO.detectSyntax(initialFile)
             }
         }
     }
@@ -47,6 +51,8 @@ Kirigami.ApplicationWindow {
             currentFile = path
             textArea.text = fileIO.read(path)
             textArea.modified = false
+            // Auto-detect syntax
+            currentSyntax = fileIO.detectSyntax(path)
         }
     }
     
@@ -193,6 +199,7 @@ Kirigami.ApplicationWindow {
                 textArea.modified = false
                 currentFile = ""
                 textArea.text = ""
+                currentSyntax = "None"
             } else {
                 saveDialogBeforeNew.open()
             }
@@ -203,6 +210,7 @@ Kirigami.ApplicationWindow {
             currentFile = ""
             textArea.text = ""
             textArea.modified = false
+            currentSyntax = "None"
         }
         
         onRejected: {
@@ -224,6 +232,7 @@ Kirigami.ApplicationWindow {
             textArea.modified = false
             currentFile = ""
             textArea.text = ""
+            currentSyntax = "None"
         }
         onRejected: {
             // User cancelled save dialog, don't create new
@@ -248,6 +257,7 @@ Kirigami.ApplicationWindow {
                         currentFile = ""
                         textArea.text = ""
                         textArea.modified = false
+                        currentSyntax = "None"
                     }
                 }
             }
@@ -307,6 +317,49 @@ Kirigami.ApplicationWindow {
         }
         
         Controls.Menu {
+            title: i18n("Syntax")
+            
+            Controls.Action {
+                text: i18n("Auto-detect from File")
+                icon.name: "edit-find"
+                enabled: hasFile
+                onTriggered: {
+                    if (hasFile) {
+                        currentSyntax = fileIO.detectSyntax(currentFile)
+                        showPassiveNotification(i18n("Syntax set to: %1", currentSyntax))
+                    }
+                }
+            }
+            
+            Controls.Action {
+                text: i18n("Plain Text")
+                icon.name: "text-plain"
+                onTriggered: {
+                    currentSyntax = "None"
+                    showPassiveNotification(i18n("Syntax highlighting disabled"))
+                }
+            }
+            
+            Controls.MenuSeparator {}
+            
+            Controls.Menu {
+                title: i18n("Select Syntax...")
+                
+                Repeater {
+                    model: Repository.definitions
+                    
+                    Controls.MenuItem {
+                        text: modelData.translatedSection + " / " + modelData.translatedName
+                        onTriggered: {
+                            currentSyntax = modelData.name
+                            showPassiveNotification(i18n("Syntax set to: %1", modelData.name))
+                        }
+                    }
+                }
+            }
+        }
+        
+        Controls.Menu {
             title: i18n("Help")
             
             Controls.Action {
@@ -346,6 +399,8 @@ Kirigami.ApplicationWindow {
                         currentFile = filePath
                         textArea.text = fileIO.read(filePath)
                         textArea.modified = false
+                        // Auto-detect syntax
+                        currentSyntax = fileIO.detectSyntax(filePath)
                         showPassiveNotification(i18n("File opened: %1", filePath.split('/').pop()))
                     } else {
                         // Otherwise, open in new instance
@@ -369,6 +424,18 @@ Kirigami.ApplicationWindow {
                     wrapMode: TextEdit.Wrap
                     selectByMouse: true
                     persistentSelection: true
+                    
+                    // Syntax highlighting
+                    SyntaxHighlighter {
+                        id: syntaxHighlighter
+                        textEdit: textArea
+                        definition: currentSyntax
+                        theme: Repository.defaultTheme(
+                            Kirigami.Theme.colorSet === Kirigami.Theme.Window 
+                            ? Repository.DarkTheme 
+                            : Repository.LightTheme
+                        )
+                    }
                     
                     background: Rectangle {
                         color: Kirigami.Theme.backgroundColor
@@ -410,6 +477,14 @@ Kirigami.ApplicationWindow {
                     return i18n("Lines: %1 | Characters: %2", lines, chars)
                 }
                 font: Kirigami.Theme.smallFont
+            }
+            
+            Controls.Label {
+                anchors.centerIn: parent
+                anchors.verticalCenter: parent.verticalCenter
+                text: i18n("Syntax: %1", currentSyntax === "None" ? i18n("Plain Text") : currentSyntax)
+                font: Kirigami.Theme.smallFont
+                color: Kirigami.Theme.textColor
             }
             
             Controls.Label {

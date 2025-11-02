@@ -12,6 +12,7 @@ set(CMAKE_DISABLE_FIND_PACKAGE_WrapVulkanHeaders TRUE)
 find_package(Qt6 6.5 REQUIRED COMPONENTS Core Gui Qml Quick QuickControls2 Widgets)
 find_package(KF6CoreAddons REQUIRED)
 find_package(KF6I18n REQUIRED)
+find_package(KF6SyntaxHighlighting REQUIRED)
 
 add_executable(kirigami-noteapp main.cpp)
 
@@ -24,6 +25,7 @@ target_link_libraries(kirigami-noteapp
     Qt6::Widgets
     KF6::CoreAddons
     KF6::I18n
+    KF6::SyntaxHighlighting
 )
 
 # Copy QML file to build directory

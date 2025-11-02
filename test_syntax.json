@@ -1,0 +1,30 @@
+{
+  "name": "kirigami-noteapp",
+  "version": "1.0.0",
+  "description": "A minimal text editor with syntax highlighting",
+  "features": [
+    "File operations (New, Open, Save)",
+    "Syntax highlighting for 300+ languages",
+    "Auto-detection from file extension",
+    "Manual syntax selection",
+    "Dark/Light theme support",
+    "Unsaved changes protection"
+  ],
+  "dependencies": {
+    "Qt6": ">=6.5",
+    "KF6CoreAddons": "required",
+    "KF6I18n": "required",
+    "KF6SyntaxHighlighting": "required"
+  },
+  "supported_languages": {
+    "programming": ["C++", "Python", "JavaScript", "Java", "Rust", "Go"],
+    "markup": ["HTML", "XML", "Markdown", "JSON", "YAML"],
+    "scripting": ["Bash", "PowerShell", "Lua", "Perl"]
+  },
+  "settings": {
+    "auto_detect_syntax": true,
+    "default_font": "Monospace",
+    "font_size": 11,
+    "word_wrap": true
+  }
+}

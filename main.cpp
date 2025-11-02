@@ -10,6 +10,8 @@
 #include <QMimeType>
 #include <KLocalizedContext>
 #include <KLocalizedString>
+#include <KSyntaxHighlighting/Repository>
+#include <KSyntaxHighlighting/Definition>
 
 // Simple file I/O class for QML
 class FileIO : public QObject
@@ -123,6 +125,43 @@ public:
         } else {
             qDebug() << "Starting new instance with file:" << filePath;
         }
+    }
+    
+    Q_INVOKABLE QString detectSyntax(const QString &filePath) {
+        // Use KSyntaxHighlighting to detect the appropriate syntax definition
+        KSyntaxHighlighting::Repository repository;
+        
+        // Try to detect from file name first
+        KSyntaxHighlighting::Definition def = repository.definitionForFileName(filePath);
+        
+        // If that fails, try MIME type detection
+        if (!def.isValid()) {
+            QMimeDatabase mimeDb;
+            QMimeType mimeType = mimeDb.mimeTypeForFile(filePath);
+            def = repository.definitionForMimeType(mimeType.name());
+        }
+        
+        // Return the definition name, or "None" for plain text
+        if (def.isValid()) {
+            QString defName = def.name();
+            qDebug() << "Detected syntax for" << filePath << ":" << defName;
+            return defName;
+        }
+        
+        qDebug() << "No syntax detected for" << filePath << ", using plain text";
+        return "None";
+    }
+    
+    Q_INVOKABLE QString detectSyntaxFromMimeType(const QString &mimeTypeName) {
+        // Detect syntax from a MIME type string
+        KSyntaxHighlighting::Repository repository;
+        KSyntaxHighlighting::Definition def = repository.definitionForMimeType(mimeTypeName);
+        
+        if (def.isValid()) {
+            return def.name();
+        }
+        
+        return "None";
     }
 };
 
