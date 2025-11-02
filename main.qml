@@ -32,10 +32,15 @@ Kirigami.ApplicationWindow {
             currentFile = initialFile
             const content = fileIO.read(initialFile)
             if (content !== null && content !== undefined) {
+                textArea.isLoadingFile = true
                 textArea.text = content
-                textArea.modified = false
                 // Auto-detect syntax
                 currentSyntax = fileIO.detectSyntax(initialFile)
+                // Reset modified state after syntax highlighting is applied
+                Qt.callLater(function() {
+                    textArea.modified = false
+                    textArea.isLoadingFile = false
+                })
             }
         }
     }
@@ -49,10 +54,15 @@ Kirigami.ApplicationWindow {
         onAccepted: {
             const path = selectedFile.toString().replace("file://", "")
             currentFile = path
+            textArea.isLoadingFile = true
             textArea.text = fileIO.read(path)
-            textArea.modified = false
             // Auto-detect syntax
             currentSyntax = fileIO.detectSyntax(path)
+            // Reset modified state after syntax highlighting is applied
+            Qt.callLater(function() {
+                textArea.modified = false
+                textArea.isLoadingFile = false
+            })
         }
     }
     
@@ -397,10 +407,15 @@ Kirigami.ApplicationWindow {
                     // If current text is empty/null, load in current instance
                     if (!textArea.text || textArea.text.trim() === "") {
                         currentFile = filePath
+                        textArea.isLoadingFile = true
                         textArea.text = fileIO.read(filePath)
-                        textArea.modified = false
                         // Auto-detect syntax
                         currentSyntax = fileIO.detectSyntax(filePath)
+                        // Reset modified state after syntax highlighting is applied
+                        Qt.callLater(function() {
+                            textArea.modified = false
+                            textArea.isLoadingFile = false
+                        })
                         showPassiveNotification(i18n("File opened: %1", filePath.split('/').pop()))
                     } else {
                         // Otherwise, open in new instance
@@ -417,6 +432,7 @@ Kirigami.ApplicationWindow {
                     id: textArea
                     
                     property bool modified: false
+                    property bool isLoadingFile: false
                     
                     focus: true
                     font.family: "Monospace"
@@ -473,7 +489,8 @@ Kirigami.ApplicationWindow {
                     }
                     
                     onTextChanged: {
-                        if (text !== "" && !modified) {
+                        // Only mark as modified if we're not loading a file and text is not empty
+                        if (!isLoadingFile && text !== "" && !modified) {
                             modified = true
                         }
                     }
