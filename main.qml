@@ -430,14 +430,32 @@ Kirigami.ApplicationWindow {
                         id: syntaxHighlighter
                         textEdit: textArea
                         definition: currentSyntax
-                        theme: Repository.defaultTheme(
-                            Kirigami.Theme.colorSet === Kirigami.Theme.Window 
-                            ? Repository.DarkTheme 
-                            : Repository.LightTheme
-                        )
+                        // Use proper theme based on background brightness
+                        theme: {
+                            // Check if background is dark by comparing luminance
+                            var bg = Kirigami.Theme.backgroundColor
+                            var luminance = 0.299 * bg.r + 0.587 * bg.g + 0.114 * bg.b
+                            
+                            if (luminance < 0.5) {
+                                // Dark background - try specific dark themes
+                                var breezeDark = Repository.theme("Breeze Dark")
+                                if (breezeDark.isValid()) {
+                                    return breezeDark
+                                }
+                                return Repository.defaultTheme(Repository.DarkTheme)
+                            } else {
+                                // Light background
+                                var breezeLight = Repository.theme("Breeze Light")
+                                if (breezeLight.isValid()) {
+                                    return breezeLight
+                                }
+                                return Repository.defaultTheme(Repository.LightTheme)
+                            }
+                        }
                     }
                     
                     background: Rectangle {
+                        // Keep Kirigami dark background, don't use syntax theme's background
                         color: Kirigami.Theme.backgroundColor
                         border.color: dropArea.containsDrag ? Kirigami.Theme.highlightColor : "transparent"
                         border.width: dropArea.containsDrag ? 2 : 0
