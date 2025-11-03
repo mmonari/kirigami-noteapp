@@ -1,6 +1,6 @@
 # Kirigami NoteApp
 
-A minimal text editor for KDE built with Kirigami and Qt 6, inspired by Windows 7 Notepad.
+A minimal text editor for KDE built with Kirigami and Qt 6, featuring professional syntax highlighting for 300+ languages. Inspired by Windows 7 Notepad with modern KDE integration.
 
 ![A simple text editor](assets/hello-world.png)
 
@@ -24,6 +24,15 @@ A minimal text editor for KDE built with Kirigami and Qt 6, inspired by Windows 
 
 ## Features
 
+- **Syntax Highlighting** - Professional code highlighting for 300+ languages:
+  - Automatic detection from file extension and MIME type
+  - Same highlighting engine as Kate, KWrite, and KDevelop
+  - Supports all major programming languages (Python, C++, JavaScript, Java, Rust, Go, etc.)
+  - Markup languages (HTML, XML, Markdown, JSON, YAML, etc.)
+  - Shell scripts, configuration files, and more
+  - Manual syntax selection via Syntax menu
+  - Theme-aware (adapts to system dark/light mode)
+  - Readable text colors for plain text files
 - **Simple Text Editing** - Clean, distraction-free text editing interface
 - **File Operations** - New, Open, Save, Save As functionality
 - **Unsaved Changes Protection** - Prevents accidental data loss:
@@ -61,7 +70,10 @@ A minimal text editor for KDE built with Kirigami and Qt 6, inspired by Windows 
 ## Requirements
 
 - Qt 6.5 or later
-- KDE Frameworks 6 (KF6CoreAddons, KF6I18n)
+- KDE Frameworks 6:
+  - KF6CoreAddons
+  - KF6I18n
+  - KF6SyntaxHighlighting
 - Kirigami 6
 - CMake 3.20 or later
 - C++17 compatible compiler
@@ -170,13 +182,49 @@ Standard menu bar at the top with:
 - Save As - Save with a new name
 - Quit - Exit the application
 
+**Syntax Menu:**
+- Auto-detect from File - Automatically detect syntax from file extension/type
+- Plain Text - Disable syntax highlighting
+- Select Syntax... - Manual syntax selection from 300+ available languages
+
 **Help Menu:**
 - About - Application information
 
 ### Status Bar
 
 - **Left side** - Line and character count
+- **Center** - Current syntax highlighting mode (e.g., "Syntax: Python")
 - **Right side** - File modification status (Modified/Saved)
+
+### Syntax Highlighting
+
+The app automatically detects and applies syntax highlighting based on file type:
+
+**Automatic Detection:**
+- Opens `.py` files → Python highlighting
+- Opens `.cpp`, `.h` files → C++ highlighting
+- Opens `.json` files → JSON highlighting
+- Opens `.md` files → Markdown highlighting
+- And 300+ more file types!
+
+**Manual Selection:**
+1. Open the **Syntax** menu
+2. Choose **Select Syntax...**
+3. Browse by category (e.g., "Sources / Python")
+4. Click to apply
+
+**Plain Text Mode:**
+- Select **Syntax → Plain Text** to disable highlighting
+- Useful for viewing raw text or logs
+- Text remains readable in both dark and light themes
+
+**Supported Languages Include:**
+- **Programming**: C, C++, C#, Java, JavaScript, TypeScript, Python, Ruby, Rust, Go, Kotlin, Swift, PHP, Perl, Lua, R, Julia, Haskell, Scala, and more
+- **Markup**: HTML, XML, Markdown, reStructuredText, AsciiDoc, LaTeX
+- **Data**: JSON, YAML, TOML, CSV, XML, INI
+- **Scripting**: Bash, PowerShell, Fish, Zsh, Batch, VBScript
+- **Configuration**: Nginx, Apache, Docker, CMake, Makefile
+- **And many more...** - See the Syntax menu for the complete list!
 
 ## Project Structure
 
@@ -213,6 +261,10 @@ Based on the Kirigami Hello World template. The application uses:
 - **Kirigami** for KDE-style components
 - **Qt Quick Controls** for standard UI elements
 - **Qt Quick Dialogs** for file dialogs
+- **KSyntaxHighlighting** for professional code highlighting (same engine as Kate)
+  - Uses Sublime Text `.sublime-syntax` format
+  - Supports 300+ programming and markup languages
+  - Provides QML bindings for easy integration
 
 ## MIME Type Support
 
@@ -247,6 +299,11 @@ The application uses Qt's `QMimeDatabase` for intelligent file type detection. T
 
 - Text files are saved with UTF-8 encoding
 - File I/O is handled by a C++ backend (FileIO class)
+- **Syntax highlighting** powered by KSyntaxHighlighting framework:
+  - Automatic detection from file extension and MIME type
+  - Same highlighting engine and definitions as Kate editor
+  - Theme-aware (adapts to system dark/light mode)
+  - Readable text colors in both plain text and code modes
 - MIME type detection uses Qt's QMimeDatabase for accuracy
 - Drag and drop supports 50+ text file formats with automatic validation
 - Multiple instances can be opened simultaneously via drag and drop or command line
