@@ -441,10 +441,24 @@ Kirigami.ApplicationWindow {
                     selectByMouse: true
                     persistentSelection: true
                     
+                    // Set text color based on whether syntax highlighting is active
+                    color: {
+                        if (currentSyntax === "None" || currentSyntax === "Plain Text") {
+                            // No syntax highlighting - use readable light gray for dark mode
+                            var bg = Kirigami.Theme.backgroundColor
+                            var luminance = 0.299 * bg.r + 0.587 * bg.g + 0.114 * bg.b
+                            return luminance < 0.5 ? "#d0d0d0" : Kirigami.Theme.textColor
+                        } else {
+                            // Syntax highlighting active - let the highlighter control colors
+                            return Kirigami.Theme.textColor
+                        }
+                    }
+                    
                     // Syntax highlighting
                     SyntaxHighlighter {
                         id: syntaxHighlighter
-                        textEdit: textArea
+                        // Only attach to textArea when syntax highlighting is needed
+                        textEdit: (currentSyntax !== "None" && currentSyntax !== "Plain Text") ? textArea : null
                         definition: currentSyntax
                         // Use proper theme based on background brightness
                         theme: {
