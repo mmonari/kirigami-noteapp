@@ -3,7 +3,7 @@
 ## 🚀 Running the App (30 seconds)
 
 ```bash
-cd /home/m0u/Projects/Research/kirigami-noteapp
+cd ./kirigami-noteapp
 make run
 ```
 
